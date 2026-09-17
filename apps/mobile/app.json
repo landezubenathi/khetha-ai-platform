@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Khetha AI",
+    "slug": "khetha-ai",
+    "scheme": "khethaai",
+    "version": "0.2.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "za.co.fourhorsementech.khethaai"
+    },
+    "android": {
+      "package": "za.co.fourhorsementech.khethaai",
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-secure-store",
+      "expo-sqlite",
+      [
+        "expo-notifications",
+        {
+          "color": "#0F7C7B",
+          "defaultChannel": "journey-reminders"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
+
