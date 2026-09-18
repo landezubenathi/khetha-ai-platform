@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import * as Crypto from 'expo-crypto';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { getInterestExplorer, submitInterestExplorer } from '@/api/assessments';
@@ -12,6 +13,7 @@ import { useGuidanceStore } from '@/store/guidanceStore';
 import { colors, spacing } from '@/theme';
 
 export default function AssessmentScreen() {
+  const { t } = useTranslation();
   const query = useQuery({ queryKey: ['interest-explorer'], queryFn: getInterestExplorer });
   const setInterestCodes = useGuidanceStore((state) => state.setInterestCodes);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -44,17 +46,24 @@ export default function AssessmentScreen() {
 
   return (
     <Screen>
-      <Text style={styles.heading}>{assessment.title}</Text>
-      <Text style={styles.notice}>{assessment.instructions}</Text>
-      {query.isError ? <Text style={styles.offline}>Using the offline demonstration questions.</Text> : null}
+      <Text style={styles.heading}>
+        {t('assessment.title', { defaultValue: assessment.title })}
+      </Text>
+      <Text style={styles.notice}>
+        {t('assessment.instructions', { defaultValue: assessment.instructions ?? '' })}
+      </Text>
+      {query.isError ? <Text style={styles.offline}>{t('assessment.offlineNotice')}</Text> : null}
       {assessment.questions.map((question) => (
         <View key={question.id} style={styles.question}>
-          <Text style={styles.prompt}>{question.sequence_number}. {question.prompt}</Text>
+          <Text style={styles.prompt}>
+            {question.sequence_number}.{' '}
+            {t(`assessment.questions.${question.sequence_number}`, { defaultValue: question.prompt })}
+          </Text>
           <View style={styles.options}>
             {question.options.map((option) => (
               <ChoiceChip
                 key={option.id}
-                label={option.label}
+                label={t(`assessment.options.${option.value}`, { defaultValue: option.label })}
                 selected={answers[question.id] === option.id}
                 onPress={() => setAnswers((current) => ({ ...current, [question.id]: option.id }))}
               />
@@ -63,7 +72,7 @@ export default function AssessmentScreen() {
         </View>
       ))}
       <Pressable disabled={!complete} onPress={continueToSubjects} style={[styles.button, !complete && styles.disabled]}>
-        <Text style={styles.buttonText}>Continue to subjects</Text>
+        <Text style={styles.buttonText}>{t('assessment.continue')}</Text>
       </Pressable>
     </Screen>
   );

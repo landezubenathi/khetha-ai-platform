@@ -2,11 +2,13 @@ import '@/i18n';
 
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
 
 import { AppProviders } from '@/providers/AppProviders';
 import { colors } from '@/theme';
 
 export default function RootLayout() {
+  const { t } = useTranslation();
   return (
     <AppProviders>
       <StatusBar style="dark" />
@@ -19,10 +21,10 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="subject-chooser" options={{ title: 'Find my path' }} />
-        <Stack.Screen name="assessment" options={{ title: 'Interest explorer' }} />
-        <Stack.Screen name="recommendations" options={{ title: 'Your options' }} />
-        <Stack.Screen name="practitioner" options={{ title: 'Career practitioner' }} />
+        <Stack.Screen name="subject-chooser" options={{ title: t('findPath') }} />
+        <Stack.Screen name="assessment" options={{ title: t('interestExplorer') }} />
+        <Stack.Screen name="recommendations" options={{ title: t('yourOptions') }} />
+        <Stack.Screen name="practitioner" options={{ title: t('careerPractitioner') }} />
       </Stack>
     </AppProviders>
   );
