@@ -40,7 +40,12 @@ export default function RecommendationsScreen() {
       client_updated_at: new Date().toISOString(),
     };
     await saveJourneyItem(item);
-    await scheduleJourneyReminder(result.career.name);
+    try {
+      await scheduleJourneyReminder(result.career.name);
+    } catch {
+      // Saving the journey must still succeed if notification permission or
+      // scheduling is unavailable on the current device.
+    }
     router.push('/(tabs)/journey');
   }
 
